@@ -115,6 +115,9 @@ apptainer_clean:
 		fi \
 	done
 
+apptainer_distclean:
+	@rm -f *.sif
+
 apptainer_test: $(SIF_IMAGES)
 	@for f in $^; do \
 		echo "Testing Apptainer: $$f"; \
