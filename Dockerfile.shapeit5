@@ -17,8 +17,7 @@ ARG RUN_CMD
 # Using the TOOLS target, compile all binaries by copying over a new Makefile
 WORKDIR /src/shapeit5/${RUN_CMD}
 COPY src/Makefile makefile
-RUN make clean && \
-	make -j static_exe_docker && \
+RUN make clean && make -j static_exe_docker && \
 	cp bin/${RUN_CMD}_static /usr/local/bin/${RUN_CMD}
 
 FROM $BASE_IMAGE
