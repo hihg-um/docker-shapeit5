@@ -23,4 +23,5 @@ RUN wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VER}/htsl
 	rm -rf htslib-${HTSLIB_VER} htslib-${HTSLIB_VER}.tar.bz2
 
 WORKDIR /src
-RUN git clone --recurse-submodules https://github.com/odelaneau/shapeit5.git
+RUN git clone --recurse-submodules --branch v5.1.1 --single-branch --depth=1 \
+	https://github.com/odelaneau/shapeit5.git
