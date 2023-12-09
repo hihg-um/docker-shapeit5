@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: IMAGE_RREPOSITORY=ghcr.io make docker docker_test docker_release
+      run: IMAGE_REPOSITORY=ghcr.io make docker docker_test docker_release
