@@ -10,7 +10,8 @@ TOOLS := ligate phase_common phase_rare switch
 
 DOCKER_BUILD_ARGS ?= --progress=plain
 DOCKER_TAG ?= $(shell git describe --tags --broken --dirty --all --long | \
-		sed "s,heads/,," | sed "s,tags/,," \
+		sed "s,heads/,," | sed "s,tags/,," | \
+		sed "s,remotes/pull/.*/,," \
 		)_$(shell uname -m)_$(shell uname -s | \
 		tr '[:upper:]' '[:lower:]')
 DOCKER_BASE ?= $(patsubst docker-%,%,$(shell basename \
