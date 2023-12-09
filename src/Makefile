@@ -19,7 +19,8 @@ CXXFLAG+= -D__COMMIT_ID__=\"$(COMMIT_VERS)\"
 CXXFLAG+= -D__COMMIT_DATE__=\"$(COMMIT_DATE)\"
 
 #DYNAMIC LIBRARIES
-DYN_LIBS=-lz -lpthread -lbz2 -llzma -lcurl -lcrypto
+DYN_LIBS=-lbz2 -lcurl -lboost_iostreams -lboost_program_options \
+		-lboost_serialization -lbz2 -lcrypto -lhts -llzma -lpthread -lz
 
 HFILE=$(shell find src -name *.h)
 CFILE=$(shell find src -name *.cpp)
@@ -29,18 +30,15 @@ VPATH=$(shell for file in `find src -name *.cpp`; do echo $$(dirname $$file); do
 NAME=$(shell basename $(CURDIR))
 EXEFILE=bin/$(NAME)_static
 
-# Target for docker build
-static_exe_docker: CXXFLAG=-O2 -mavx2 -mfma -D__COMMIT_ID__=\"$(COMMIT_VERS)\" -D__COMMIT_DATE__=\"$(COMMIT_DATE)\"
-static_exe_docker: LDFLAG=-O2
-static_exe_docker: HTSLIB_INC=/usr/local/include/htslib
-static_exe_docker: HTSLIB_LIB=/usr/local/lib/libhts.a
-static_exe_docker: BOOST_INC=/usr/include/boost
-static_exe_docker: BOOST_LIB_IO=/usr/lib/x86_64-linux-gnu/libboost_iostreams.a
-static_exe_docker: BOOST_LIB_PO=/usr/lib/x86_64-linux-gnu/libboost_program_options.a
+#LIBRARY PATHING
+HTSLIB_INC=/usr/local/include/htslib
+BOOST_INC=/usr/include/boost
+
+#STATIC DOCKER TARGET
 static_exe_docker: $(EXEFILE)
 
 $(EXEFILE): $(OFILE)
-	$(CXX) $(LDFLAG) -static -static-libgcc -static-libstdc++ -pthread -o $(EXEFILE) $^ $(HTSLIB_LIB) $(BOOST_LIB_IO) $(BOOST_LIB_PO) -Wl,-Bstatic $(DYN_LIBS)
+	$(CXX) $(LDFLAG) -static -static-libgcc -static-libstdc++ -pthread -o $(EXEFILE) $^ -Wl,-Bstatic $(DYN_LIBS)
 
 obj/%.o: %.cpp $(HFILE)
 	$(CXX) $(CXXFLAG) -c $< -o $@ -Isrc -I$(HTSLIB_INC) -I$(BOOST_INC)
