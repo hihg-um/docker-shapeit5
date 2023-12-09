@@ -1,7 +1,16 @@
+# SPDX-License-Identifier: GPL-2.0
 ARG BUILDER
 ARG BASE_IMAGE
 
 FROM $BUILDER as builder
+
+LABEL org.opencontainers.image.title="Shapeit5 builder"
+LABEL org.opencontainers.image.description="Shapeit5 from https://github.com/odelaneau/shapeit5"
+LABEL org.opencontainers.image.url="https://github.com/hihg-um/docker-shapeit5"
+LABEL org.opencontainers.image.version="5.1.1"
+LABEL org.opencontainers.image.licences="GPL v2"
+LABEL org.opencontainers.image.vendor="The John P. Hussman Institute for Human Genomics at The University of Miami Miller School of Medicine"
+LABEL org.opencontainers.image.authors="kms309@med.miami.edu"
 
 ARG RUN_CMD
 
@@ -13,6 +22,15 @@ RUN make clean && \
 	cp bin/${RUN_CMD}_static /usr/local/bin/${RUN_CMD}
 
 FROM $BASE_IMAGE
+
+LABEL org.opencontainers.image.title="Shapeit5 binaries"
+LABEL org.opencontainers.image.description="Shapeit5 from https://github.com/odelaneau/shapeit5"
+LABEL org.opencontainers.image.url="https://github.com/hihg-um/docker-shapeit5"
+LABEL org.opencontainers.image.version="5.1.1"
+LABEL org.opencontainers.image.licences="GPL v2"
+LABEL org.opencontainers.image.title="shapeit5"
+LABEL org.opencontainers.image.vendor="The John P. Hussman Institute for Human Genomics at The University of Miami Miller School of Medicine"
+LABEL org.opencontainers.image.authors="kms309@med.miami.edu"
 
 ARG RUN_CMD
 
