@@ -1,18 +1,21 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "updates" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
 
   build:
-  
+
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: IMAGE_REPOSITORY=ghcr.io make docker docker_test docker_release
+    - name: 'Checkout Actions'
+      uses: actions/checkout@v3
+
+    - name: 'Build the Docker image'
+      run: make docker
+
+    - name: 'Test the Docker image'
+      run: make docker_test
